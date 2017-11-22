@@ -16,8 +16,4 @@ export class AboutComponent implements OnInit {
   ngOnInit() {
   }
 
-  sendMeHome() {
-    this.router.navigate(['']);
-  }
-
 }
