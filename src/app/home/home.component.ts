@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { trigger,style,transition,animate,keyframes,query,stagger } from '@angular/animations';
 
 import { DataService } from '../data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -38,8 +39,9 @@ export class HomeComponent implements OnInit {
   btnText: string = 'Add an Item';
   goalText: string = 'My first life goal';
   goals = [];
+  badGoal: boolean = false;
 
-  constructor(private _data: DataService) { }
+  constructor(private _data: DataService, private _router: Router) { }
 
   ngOnInit() {
     this.itemCount = this.goals.length;
@@ -48,11 +50,18 @@ export class HomeComponent implements OnInit {
   }
 
   addItem() {
+    if (this.goalText == 'My first life goal' || this.goalText == '') {
+      this.badGoal = true;
+      return;
+    } else {
+      this.badGoal = false;
+    }
     this.goals.push(this.goalText);
     this._data.setGoal(this.goalText);
     this.goalText = '';
     this.itemCount = this.goals.length;
     this._data.changeGoal(this.goals);
+    this._router.navigate(['thanks']);
   }
 
   removeItem(i) {
